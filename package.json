@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "format": "npx prettier --write \"./**/*.{js,ts,jsx,tsx,json}\""
+    "format": "npx prettier --write \"./**/*.{js,ts,jsx,tsx,json}\"",
+    "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": "yarn format"
