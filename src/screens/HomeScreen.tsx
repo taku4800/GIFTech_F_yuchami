@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { ImageBackground, View } from "react-native";
-import TinderCard from "react-tinder-card";
-import styles from "../styles/screens/HomeScreen.style";
-import { fetchRemindItem, postXXA, postXXB } from "../services/service";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { ImageBackground, View } from 'react-native';
+import TinderCard from 'react-tinder-card';
+import styles from '../styles/screens/HomeScreen.style';
+import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
 
 export default function Home() {
   // APIから取得した確認リスト
@@ -25,13 +25,13 @@ export default function Home() {
 
   // TinderCardを左右のどちらかにスワイプしたら発動
   const swiped = async (direction: any, id: number) => {
-    console.log("removing: " + id + " to the " + direction);
+    console.log('removing: ' + id + ' to the ' + direction);
     // directionに応じた送信処理
     switch (direction) {
-      case "left":
+      case 'left':
         await postXXA();
         break;
-      case "right":
+      case 'right':
         await postXXB();
         break;
       default:
@@ -41,10 +41,10 @@ export default function Home() {
 
   // TinderCardが画面外に移動したら発動
   const outOfFrame = (id: number) => {
-    console.log(id + " left the screen!");
+    console.log(id + ' left the screen!');
     // 該当のTinderCardを削除
     setRemindItemStates(
-      remindItemStates.filter((character) => character.id !== id)
+      remindItemStates.filter((character) => character.id !== id),
     );
   };
 

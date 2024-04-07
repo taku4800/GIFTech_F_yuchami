@@ -1,4 +1,4 @@
 type remindItem = {
-    id: number;
-    url: string;
-  };
+  id: number;
+  url: string;
+};

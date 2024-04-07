@@ -6,12 +6,14 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "format": "npx prettier --write \"./**/*.{js,ts,jsx,tsx,json}\""
   },
   "dependencies": {
     "@react-spring/native": "9.5.5",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
+    "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-tinder-card": "^1.6.4"

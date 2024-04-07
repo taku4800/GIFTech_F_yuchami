@@ -6,23 +6,23 @@ export const fetchRemindItem = async (): Promise<remindItem[]> => {
   return [
     {
       id: 1,
-      url: "https://picsum.photos/300/400",
+      url: 'https://picsum.photos/300/400',
     },
     {
       id: 2,
-      url: "https://picsum.photos/300/400",
+      url: 'https://picsum.photos/300/400',
     },
     {
       id: 3,
-      url: "https://picsum.photos/300/400",
+      url: 'https://picsum.photos/300/400',
     },
     {
       id: 4,
-      url: "https://picsum.photos/300/400",
+      url: 'https://picsum.photos/300/400',
     },
     {
       id: 5,
-      url: "https://picsum.photos/300/400",
+      url: 'https://picsum.photos/300/400',
     },
   ];
 };
