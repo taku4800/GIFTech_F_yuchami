@@ -9,10 +9,15 @@
     "web": "expo start --web",
     "format": "npx prettier --write \"./**/*.{js,ts,jsx,tsx,json}\""
   },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": "yarn format"
+  },
   "dependencies": {
     "@react-spring/native": "9.5.5",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-native": "0.73.6",

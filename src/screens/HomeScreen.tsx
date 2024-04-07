@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { ImageBackground, View } from 'react-native';
-import TinderCard from 'react-tinder-card';
+import TinderCard from "react-tinder-card";
 import styles from '../styles/screens/HomeScreen.style';
 import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
 
