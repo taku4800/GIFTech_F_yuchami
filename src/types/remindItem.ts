@@ -1,4 +1,4 @@
-type remindItem = {
+type RemindItem = {
   id: number;
   url: string;
 };

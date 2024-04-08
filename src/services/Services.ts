@@ -1,4 +1,4 @@
-export const fetchRemindItem = async (): Promise<remindItem[]> => {
+export const fetchRemindItem = async (): Promise<RemindItem[]> => {
   // directionに応じた送信処理
   // 確認してほしい忘れ物はDBに登録される
   // 確認済みのフラグがついているもの以外を一通り取得
