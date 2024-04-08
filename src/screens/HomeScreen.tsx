@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ImageBackground, View } from 'react-native';
 import TinderCard from 'react-tinder-card';
 import styles from '../styles/screens/HomeScreen.style';
-import { fetchRemindItem, postXXA, postXXB } from '../services/Services';
+import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
 
 export default function Home() {
   // APIから取得した確認リスト
