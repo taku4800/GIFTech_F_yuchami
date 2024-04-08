@@ -43,8 +43,8 @@ export default function Home() {
   const outOfFrame = (id: number) => {
     console.log(id + ' left the screen!');
     // 該当のTinderCardを削除
-    setRemindItemStates((prevState)=>
-    prevState.filter((character) => character.id !== id),
+    setRemindItemStates((prevState) =>
+      prevState.filter((character) => character.id !== id),
     );
   };
 
