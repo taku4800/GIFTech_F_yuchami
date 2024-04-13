@@ -140,7 +140,7 @@ const TinderAnimation: React.FC = () => {
       style={[styles.container, { width: screen.width, height: screen.height }]}
     >
       <View style={[{ width: screen.width * 0.9, height: screen.width * 0.9 }]}>
-      {RenderCards()}
+        {RenderCards()}
       </View>
     </View>
   );
