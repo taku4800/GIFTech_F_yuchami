@@ -4972,7 +4972,6 @@ __metadata:
     prettier: "npm:^3.2.5"
     react: "npm:18.2.0"
     react-native: "npm:0.73.6"
-    react-tinder-card: "npm:^1.6.4"
     typescript: "npm:^5.1.3"
   languageName: unknown
   linkType: soft
@@ -7179,13 +7178,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"p-sleep@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "p-sleep@npm:1.1.0"
-  checksum: 4c99324b1acc907d99f6ecb5efbdf77d5d00d52fd56f149c80e779966e48c08ec1bf5b133c9aeea7c044c1b688f761ce13a5ee04a4c97f4b72c75fc5d3ced31d
-  languageName: node
-  linkType: hard
-
 "p-try@npm:^2.0.0":
   version: 2.2.0
   resolution: "p-try@npm:2.2.0"
@@ -7653,24 +7645,6 @@ __metadata:
   peerDependencies:
     react: ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: c194d741792e86043a4ae272f7353c1cb9412bc649945c4220c6a101a6ea5410cceb3d65d5a4d750f11a24f7426e8eec7977e8a4e3ad5d3ee235ca2b18166fa8
-  languageName: node
-  linkType: hard
-
-"react-tinder-card@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "react-tinder-card@npm:1.6.4"
-  dependencies:
-    p-sleep: "npm:^1.1.0"
-  peerDependencies:
-    "@react-spring/native": ^9.5.5
-    "@react-spring/web": ^9.5.5
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@react-spring/native":
-      optional: true
-    "@react-spring/web":
-      optional: true
-  checksum: ca9883dd812503f19174db7a40d95cb693048ff5dd3cdb89564125062f4fd0ba5ea563f9fa0f1a7c7e56ac818aa5d9a6a1fa0dadc625b4b85a4e998fc5c59251
   languageName: node
   linkType: hard
 
