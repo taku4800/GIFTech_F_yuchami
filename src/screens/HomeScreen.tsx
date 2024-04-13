@@ -67,6 +67,52 @@ const TinderAnimation: React.FC = () => {
     ],
   };
 
+  const RenderCards = React.useMemo(() => {
+    return () => {
+      return remindItemStates.map((character, index) =>
+        index === remindItemStates.length - 1 ? (
+          <Animated.View
+            {...createPanResponder(character.id).panHandlers}
+            key={character.id}
+            style={[animatedStyle]}
+          >
+            <Image style={styles.cardImage} source={{ uri: character.url }} />
+            <Image
+              source={specificImageInfo} // 画像のパスを指定
+              style={[
+                styles.cardChara,
+                {
+                  width: screen.width * 0.3,
+                  height: screen.width * 0.3,
+                  top: -screen.width * 0.15,
+                },
+              ]}
+            />
+          </Animated.View>
+        ) : (
+          <>
+            <Image
+              key={character.id}
+              style={styles.cardImage}
+              source={{ uri: character.url }}
+            />
+            <Image
+              source={specificImageInfo} // 画像のパスを指定
+              style={[
+                styles.cardChara,
+                {
+                  width: screen.width * 0.3,
+                  height: screen.width * 0.3,
+                  top: -screen.width * 0.15,
+                },
+              ]}
+            />
+          </>
+        ),
+      );
+    };
+  }, [remindItemStates]);
+
   useEffect(() => {
     // APIから確認リストを取得する
     const fetchData = async () => {
@@ -94,23 +140,7 @@ const TinderAnimation: React.FC = () => {
       style={[styles.container, { width: screen.width, height: screen.height }]}
     >
       <View style={[{ width: screen.width * 0.9, height: screen.width * 0.9 }]}>
-        {remindItemStates.map((character, index) =>
-          index === remindItemStates.length - 1 ? (
-            <Animated.View
-              {...createPanResponder(character.id).panHandlers}
-              key={character.id}
-              style={[animatedStyle]}
-            >
-              <Image style={styles.cardImage} source={{ uri: character.url }} />
-            </Animated.View>
-          ) : (
-            <Image
-              key={character.id}
-              style={styles.cardImage}
-              source={{ uri: character.url }}
-            />
-          ),
-        )}
+      {RenderCards()}
       </View>
     </View>
   );
