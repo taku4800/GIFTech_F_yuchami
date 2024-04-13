@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { ImageBackground, View, Text, Dimensions } from 'react-native';
+import { ImageBackground, View, Text, Dimensions,Image } from 'react-native';
 import TinderCard from 'react-tinder-card';
 import styles from '../styles/screens/HomeScreen.style';
 import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
@@ -12,6 +12,7 @@ export default function Home() {
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
   const screen = Dimensions.get('window');
+  const specificImageInfo = require('../../assets/chara/GF1.png');
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -67,6 +68,11 @@ export default function Home() {
               style={styles.cardImage}
               source={{ uri: character.url }}
             />
+             {index === remindItemStates.length - 1 && (
+              <Image
+                source={specificImageInfo} // 画像のパスを指定
+                style={[styles.cardChara, { width: screen.width*.3, height: screen.width*.3,top:-screen.width*.15 }]}/> 
+             )}
           </TinderCard>
         ))}
       </View>

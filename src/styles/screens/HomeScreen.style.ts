@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     resizeMode: 'cover',
   },
+  cardChara: {
+    position: 'absolute',
+    left:'35%',
+    alignItems: 'center',
+    overflow: 'hidden',
+    resizeMode: 'cover',
+  },
 });
 
 export default styles;
