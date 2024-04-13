@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { ImageBackground, View, Text, Dimensions,Image } from 'react-native';
+import { ImageBackground, View, Text, Dimensions, Image } from 'react-native';
 import TinderCard from 'react-tinder-card';
 import styles from '../styles/screens/HomeScreen.style';
 import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
@@ -68,11 +68,19 @@ export default function Home() {
               style={styles.cardImage}
               source={{ uri: character.url }}
             />
-             {index === remindItemStates.length - 1 && (
+            {index === remindItemStates.length - 1 && (
               <Image
                 source={specificImageInfo} // 画像のパスを指定
-                style={[styles.cardChara, { width: screen.width*.3, height: screen.width*.3,top:-screen.width*.15 }]}/> 
-             )}
+                style={[
+                  styles.cardChara,
+                  {
+                    width: screen.width * 0.3,
+                    height: screen.width * 0.3,
+                    top: -screen.width * 0.15,
+                  },
+                ]}
+              />
+            )}
           </TinderCard>
         ))}
       </View>
