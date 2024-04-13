@@ -52,8 +52,10 @@ export default function Home() {
   };
 
   return (
-    <View style={[styles.container, { width: screen.width, height:screen.height }]}>
-      <View style={[ { width: screen.width * 0.9, height: screen.width * 0.9 }]}>
+    <View
+      style={[styles.container, { width: screen.width, height: screen.height }]}
+    >
+      <View style={[{ width: screen.width * 0.9, height: screen.width * 0.9 }]}>
         {remindItemStates.map((character, index) => (
           <TinderCard
             ref={childRefs[index]}
