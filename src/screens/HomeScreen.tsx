@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, View, Text, Dimensions } from 'react-native';
 import TinderCard from 'react-tinder-card';
 import styles from '../styles/screens/HomeScreen.style';
 import { fetchRemindItem, postXXA, postXXB } from '../services/Service';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function Home() {
   // APIから取得した確認リスト
   const [remindItemStates, setRemindItemStates] = useState<RemindItem[]>([]);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
+
+  const screen = Dimensions.get('window');
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -49,8 +52,8 @@ export default function Home() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cardContainer}>
+    <View style={[styles.container, { width: screen.width, height:screen.height }]}>
+      <View style={[ { width: screen.width * 0.9, height: screen.width * 0.9 }]}>
         {remindItemStates.map((character, index) => (
           <TinderCard
             ref={childRefs[index]}
