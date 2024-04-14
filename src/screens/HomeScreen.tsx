@@ -9,23 +9,24 @@ const TinderAnimation: React.FC = () => {
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
   const screen = Dimensions.get('window');
+  const [nowSpecificImageInfo, setNowSpecificImageInfo] = useState(0);
   const specificImageInfo = require('../../assets/chara/GF1.png');
-  const SWIPE_THRESHOLD = 120;
+  const specificImageInfo2 = require('../../assets/chara/GF2.png');
+  const specificImageInfo3 = require('../../assets/chara/GF3.png');
 
   const [pan] = useState(new Animated.ValueXY());
   const createPanResponder = (id: number) => {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event(
-        [
-          null,
-          {
-            dx: pan.x,
-            dy: pan.y,
-          },
-        ],
-        { useNativeDriver: false },
-      ),
+      onPanResponderMove: (event, gestureState) => {
+        Animated.event([null, { dx: pan.x, dy: pan.y }], {
+          useNativeDriver: false,
+        })(event, gestureState);
+        console.log(gestureState.dx);
+        setNowSpecificImageInfo(
+          gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0,
+        );
+      },
       onPanResponderRelease: (
         _: any,
         gestureState: PanResponderGestureState,
@@ -41,6 +42,7 @@ const TinderAnimation: React.FC = () => {
             useNativeDriver: false,
           }).start(() => {
             outOfFrame(id);
+            setNowSpecificImageInfo(0);
             console.log('OK');
             pan.setValue({ x: 0, y: 0 });
           });
@@ -49,6 +51,7 @@ const TinderAnimation: React.FC = () => {
             toValue: { x: 0, y: 0 },
             useNativeDriver: false,
           }).start();
+          setNowSpecificImageInfo(0);
         }
       },
     });
@@ -77,17 +80,45 @@ const TinderAnimation: React.FC = () => {
             style={[animatedStyle]}
           >
             <Image style={styles.cardImage} source={{ uri: character.url }} />
-            <Image
-              source={specificImageInfo} // 画像のパスを指定
-              style={[
-                styles.cardChara,
-                {
-                  width: screen.width * 0.3,
-                  height: screen.width * 0.3,
-                  top: -screen.width * 0.15,
-                },
-              ]}
-            />
+            {nowSpecificImageInfo == 0 && (
+              <Image
+                source={specificImageInfo} // 画像のパスを指定
+                style={[
+                  styles.cardChara,
+                  {
+                    width: screen.width * 0.3,
+                    height: screen.width * 0.3,
+                    top: -screen.width * 0.15,
+                  },
+                ]}
+              />
+            )}
+            {nowSpecificImageInfo == 1 && (
+              <Image
+                source={specificImageInfo2} // 画像のパスを指定
+                style={[
+                  styles.cardChara,
+                  {
+                    width: screen.width * 0.3,
+                    height: screen.width * 0.3,
+                    top: -screen.width * 0.15,
+                  },
+                ]}
+              />
+            )}
+            {nowSpecificImageInfo == 2 && (
+              <Image
+                source={specificImageInfo3} // 画像のパスを指定
+                style={[
+                  styles.cardChara,
+                  {
+                    width: screen.width * 0.3,
+                    height: screen.width * 0.3,
+                    top: -screen.width * 0.15,
+                  },
+                ]}
+              />
+            )}
           </Animated.View>
         ) : (
           <>
@@ -111,7 +142,7 @@ const TinderAnimation: React.FC = () => {
         ),
       );
     };
-  }, [remindItemStates]);
+  }, [remindItemStates, nowSpecificImageInfo]);
 
   useEffect(() => {
     // APIから確認リストを取得する
