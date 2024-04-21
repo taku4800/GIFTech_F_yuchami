@@ -1,31 +1,22 @@
+import axios from "axios";
+
+const BASE_URL = "https://yuchami-tinder-app.fly.dev"
+
 export const fetchRemindItem = async (): Promise<RemindItem[]> => {
-  // directionに応じた送信処理
-  // 確認してほしい忘れ物はDBに登録される
-  // 確認済みのフラグがついているもの以外を一通り取得
-  // 一旦モック
-  return [
-    {
-      id: 1,
-      url: 'https://picsum.photos/300/400',
-    },
-    {
-      id: 2,
-      url: 'https://picsum.photos/300/400',
-    },
-    {
-      id: 3,
-      url: 'https://picsum.photos/300/400',
-    },
-    {
-      id: 4,
-      url: 'https://picsum.photos/300/400',
-    },
-    {
-      id: 5,
-      url: 'https://picsum.photos/300/400',
-    },
-  ];
+const response = await axios.get(`${BASE_URL}/viewer/remindItemLists`);
+console.log(response.data[0].remind_items);
+return response.data[0].remind_items;
 };
 
-export const postXXA = async () => {};
-export const postXXB = async () => {};
+export const postConfirmation = async (item:RemindItem) => {
+  const response = await axios.patch(`${BASE_URL}/viewer/remindItems/${item.id}`,{
+    ...item,status:"確認完了"
+  });
+  return
+};
+export const postProblem = async (item:RemindItem) => {
+  const response = await axios.patch(`${BASE_URL}/viewer/remindItems/${item.id}`,{
+    ...item,status:"トラブルあり"
+  });
+  return
+};

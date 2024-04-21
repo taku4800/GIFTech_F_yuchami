@@ -1,29 +1,86 @@
 import React, { useEffect, useState } from 'react';
-import { View, Animated, PanResponder, Dimensions } from 'react-native';
+import {
+  View,
+  Animated,
+  PanResponder,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { PanResponderGestureState, Image } from 'react-native';
-import { fetchRemindItem } from '../services/Service';
+import {
+  fetchRemindItem,
+  postConfirmation,
+  postProblem,
+} from '../services/Service';
 import styles from '../styles/screens/HomeScreen.style';
+import { LinearGradient } from 'expo-linear-gradient';
+import { RandomColors } from '../utils/ColorThemes';
+import { specificImageInfo } from '../utils/CharacterAnimationPictures';
+import { CharaAnimation } from '../components/CharaAnimation';
+
+const ANGLE_THRESHOLD = 120;
 
 const TinderAnimation: React.FC = () => {
+  const screen = Dimensions.get('window');
+  const [animationManager] = useState(new Animated.ValueXY());
+
   const [remindItemStates, setRemindItemStates] = useState<RemindItem[]>([]);
+  const [charaAnimationMode, setCharaAnimationMode] = useState(0);
+  const [isLook, setIsLook] = useState<boolean>(false);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
-  const screen = Dimensions.get('window');
-  const [nowSpecificImageInfo, setNowSpecificImageInfo] = useState(0);
-  const specificImageInfo = require('../../assets/chara/GF1.png');
-  const specificImageInfo2 = require('../../assets/chara/GF2.png');
-  const specificImageInfo3 = require('../../assets/chara/GF3.png');
+  const RenderCharacterInfo = React.useMemo(
+    () => (props: any) => {
+      return (
+        <>
+          <Image
+            key={props.character.id}
+            style={styles.cardImage}
+            source={{ uri: `data:image/png;base64,${props.character.source}` }}
+          />
+          <LinearGradient
+            style={[styles.cardImage, { opacity: 0.5 }]}
+            colors={[
+              RandomColors[props.character.colorNumber].startColor,
+              RandomColors[props.character.colorNumber].endColor,
+            ]}
+            start={{ x: 1, y: 0.0 }}
+            end={{ x: 1, y: 1 }}
+            locations={[0.6, 1]}
+          />
+          <Image
+            source={specificImageInfo[props.number]} // 画像のパスを指定
+            style={[
+              styles.cardChara,
+              {
+                width: screen.width * 0.3,
+                height: screen.width * 0.3,
+                top: -screen.width * 0.15,
+              },
+            ]}
+          />
+          <Image
+            style={[
+              styles.lookButton,
+              {
+                top: screen.width * 0.6,
+              },
+            ]}
+          />
+        </>
+      );
+    },
+    [remindItemStates],
+  );
 
-  const [pan] = useState(new Animated.ValueXY());
-  const createPanResponder = (id: number) => {
+  const createPanResponder = (character: RemindItem) => {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gestureState) => {
-        Animated.event([null, { dx: pan.x, dy: pan.y }], {
+        Animated.event([null, { dx: animationManager.x, dy: animationManager.y }], {
           useNativeDriver: false,
         })(event, gestureState);
-        console.log(gestureState.dx);
-        setNowSpecificImageInfo(
+        setCharaAnimationMode(
           gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0,
         );
       },
@@ -31,9 +88,20 @@ const TinderAnimation: React.FC = () => {
         _: any,
         gestureState: PanResponderGestureState,
       ) => {
-        if (gestureState.dx > 120 || gestureState.dx < -120) {
+        if (
+          gestureState.dx > ANGLE_THRESHOLD ||
+          gestureState.dx < -ANGLE_THRESHOLD
+        ) {
+          if (gestureState.dx > ANGLE_THRESHOLD) {
+            postConfirmation(character);
+          }
+
+          if (gestureState.dx < -ANGLE_THRESHOLD) {
+            postProblem(character);
+          }
+
           // カードを元の位置に戻すアニメーション
-          Animated.timing(pan, {
+          Animated.timing(animationManager, {
             toValue: {
               x: gestureState.dx + gestureState.moveX,
               y: screen.height,
@@ -41,113 +109,87 @@ const TinderAnimation: React.FC = () => {
             duration: 500, // アニメーションの持続時間
             useNativeDriver: false,
           }).start(() => {
-            outOfFrame(id);
-            setNowSpecificImageInfo(0);
+            outOfFrame(character.id);
+            setCharaAnimationMode(0);
             console.log('OK');
-            pan.setValue({ x: 0, y: 0 });
+            animationManager.setValue({ x: 0, y: 0 });
           });
         } else {
-          Animated.spring(pan, {
+          Animated.spring(animationManager, {
             toValue: { x: 0, y: 0 },
             useNativeDriver: false,
           }).start();
-          setNowSpecificImageInfo(0);
+          setCharaAnimationMode(0);
         }
       },
     });
   };
 
-  const rotateCard = pan.x.interpolate({
+  const rotateCard = animationManager.x.interpolate({
     inputRange: [-200, 0, 200],
     outputRange: ['-30deg', '0deg', '30deg'],
   });
 
   const animatedStyle = {
     transform: [
-      { translateX: pan.x },
-      { translateY: pan.y },
+      { translateX: animationManager.x },
+      { translateY: animationManager.y },
       { rotate: rotateCard },
     ],
   };
 
   const RenderCards = React.useMemo(() => {
     return () => {
-      return remindItemStates.map((character, index) =>
-        index === remindItemStates.length - 1 ? (
-          <Animated.View
-            {...createPanResponder(character.id).panHandlers}
-            key={character.id}
-            style={[animatedStyle]}
-          >
-            <Image style={styles.cardImage} source={{ uri: character.url }} />
-            {nowSpecificImageInfo == 0 && (
-              <Image
-                source={specificImageInfo} // 画像のパスを指定
-                style={[
-                  styles.cardChara,
-                  {
-                    width: screen.width * 0.3,
-                    height: screen.width * 0.3,
-                    top: -screen.width * 0.15,
-                  },
-                ]}
-              />
-            )}
-            {nowSpecificImageInfo == 1 && (
-              <Image
-                source={specificImageInfo2} // 画像のパスを指定
-                style={[
-                  styles.cardChara,
-                  {
-                    width: screen.width * 0.3,
-                    height: screen.width * 0.3,
-                    top: -screen.width * 0.15,
-                  },
-                ]}
-              />
-            )}
-            {nowSpecificImageInfo == 2 && (
-              <Image
-                source={specificImageInfo3} // 画像のパスを指定
-                style={[
-                  styles.cardChara,
-                  {
-                    width: screen.width * 0.3,
-                    height: screen.width * 0.3,
-                    top: -screen.width * 0.15,
-                  },
-                ]}
-              />
-            )}
-          </Animated.View>
-        ) : (
-          <>
-            <Image
+      return (
+        remindItemStates &&
+        remindItemStates.map((character, index) =>
+          index === remindItemStates.length - 1 ? (
+            <Animated.View
+              {...createPanResponder(character).panHandlers}
               key={character.id}
-              style={styles.cardImage}
-              source={{ uri: character.url }}
-            />
-            <Image
-              source={specificImageInfo} // 画像のパスを指定
-              style={[
-                styles.cardChara,
-                {
-                  width: screen.width * 0.3,
-                  height: screen.width * 0.3,
-                  top: -screen.width * 0.15,
-                },
-              ]}
-            />
-          </>
-        ),
+              style={[animatedStyle]}
+            >
+              <View>
+                <RenderCharacterInfo character={character as RemindItem} />
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsLook(!isLook);
+                  }}
+                  style={[
+                    styles.lookButton,
+                    {
+                      top: screen.width * 0.6,
+                      width: screen.width * 0.2,
+                      height: screen.width * 0.2,
+                    },
+                  ]}
+                >
+                  <Image
+                    source={require('../../assets/yokumiru.png')}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <CharaAnimation number={charaAnimationMode} screen={screen} />
+            </Animated.View>
+          ) : (
+            <>
+              <RenderCharacterInfo character={character as RemindItem} />
+              <CharaAnimation number={0} screen={screen} />
+            </>
+          ),
+        )
       );
     };
-  }, [remindItemStates, nowSpecificImageInfo]);
+  }, [remindItemStates, charaAnimationMode, isLook]);
 
   useEffect(() => {
     // APIから確認リストを取得する
     const fetchData = async () => {
       const fetchedRemindItem = await fetchRemindItem();
+        fetchedRemindItem.forEach((item) => {
+          item.colorNumber = Math.floor(Math.random() * 2);
+        });
       setRemindItemStates(fetchedRemindItem);
       const refs = Array(remindItemStates.length)
         .fill(0)

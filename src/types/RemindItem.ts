@@ -1,4 +1,5 @@
 type RemindItem = {
   id: number;
-  url: string;
+  source: string;
+  colorNumber: number;
 };
