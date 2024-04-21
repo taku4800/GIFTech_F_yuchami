@@ -77,9 +77,12 @@ const TinderAnimation: React.FC = () => {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gestureState) => {
-        Animated.event([null, { dx: animationManager.x, dy: animationManager.y }], {
-          useNativeDriver: false,
-        })(event, gestureState);
+        Animated.event(
+          [null, { dx: animationManager.x, dy: animationManager.y }],
+          {
+            useNativeDriver: false,
+          },
+        )(event, gestureState);
         setCharaAnimationMode(
           gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0,
         );
@@ -187,9 +190,9 @@ const TinderAnimation: React.FC = () => {
     // APIから確認リストを取得する
     const fetchData = async () => {
       const fetchedRemindItem = await fetchRemindItem();
-        fetchedRemindItem.forEach((item) => {
-          item.colorNumber = Math.floor(Math.random() * 2);
-        });
+      fetchedRemindItem.forEach((item) => {
+        item.colorNumber = Math.floor(Math.random() * 2);
+      });
       setRemindItemStates(fetchedRemindItem);
       const refs = Array(remindItemStates.length)
         .fill(0)
