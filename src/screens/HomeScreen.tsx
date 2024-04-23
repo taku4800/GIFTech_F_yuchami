@@ -191,7 +191,7 @@ const TinderAnimation: React.FC = () => {
     const fetchData = async () => {
       const fetchedRemindItem = await fetchRemindItem();
       fetchedRemindItem.forEach((item) => {
-        item.colorNumber = Math.floor(Math.random() * 2);
+        item.colorNumber = Math.floor(Math.random() * RandomColors.length );
       });
       setRemindItemStates(fetchedRemindItem);
       const refs = Array(remindItemStates.length)
