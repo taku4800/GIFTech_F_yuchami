@@ -41,6 +41,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     resizeMode: 'contain',
   },
+  title: {
+    position: 'absolute',
+    left: '40%',
+    top: '60%',
+    alignItems: 'center',
+    overflow: 'hidden',
+    resizeMode: 'contain',
+  },
   pressedLookButton: {
     position: 'absolute',
     left: '40%',

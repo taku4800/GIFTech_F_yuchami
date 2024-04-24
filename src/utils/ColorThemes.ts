@@ -10,9 +10,9 @@ export const RandomColors: CardColorTheme[] = [
     charaColor: '#0017E3',
   },
   {
-    charaColor: '#DD0000',
     startColor: '#FF891C',
     endColor: '#FF7070',
+    charaColor: '#DD0000',
   },
   {
     startColor: '#10B6DB',

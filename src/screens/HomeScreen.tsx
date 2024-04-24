@@ -5,6 +5,7 @@ import {
   PanResponder,
   Dimensions,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import { PanResponderGestureState, Image } from 'react-native';
 import {
@@ -18,6 +19,11 @@ import { RandomColors } from '../utils/ColorThemes';
 import { specificImageInfo } from '../utils/CharacterAnimationPictures';
 import { CharaAnimation } from '../components/CharaAnimation';
 
+import {
+  useFonts,
+  DelaGothicOne_400Regular,
+} from '@expo-google-fonts/dela-gothic-one';
+
 const ANGLE_THRESHOLD = 120;
 
 const TinderAnimation: React.FC = () => {
@@ -29,6 +35,10 @@ const TinderAnimation: React.FC = () => {
   const [isLook, setIsLook] = useState<boolean>(false);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
+  let [fontsLoaded] = useFonts({
+    DelaGothicOne_400Regular,
+  });
+
   const RenderCharacterInfo = React.useMemo(
     () => (props: any) => {
       return (
@@ -39,7 +49,7 @@ const TinderAnimation: React.FC = () => {
             source={{ uri: `data:image/png;base64,${props.character.source}` }}
           />
           <LinearGradient
-            style={[styles.cardImage, { opacity: 0.5 }]}
+            style={[styles.cardImage, { opacity: isLook ? 0 : 0.5 }]}
             colors={[
               RandomColors[props.character.colorNumber].startColor,
               RandomColors[props.character.colorNumber].endColor,
@@ -70,7 +80,7 @@ const TinderAnimation: React.FC = () => {
         </>
       );
     },
-    [remindItemStates],
+    [remindItemStates, isLook],
   );
 
   const createPanResponder = (character: RemindItem) => {
@@ -116,6 +126,7 @@ const TinderAnimation: React.FC = () => {
             setCharaAnimationMode(0);
             console.log('OK');
             animationManager.setValue({ x: 0, y: 0 });
+            setIsLook(false);
           });
         } else {
           Animated.spring(animationManager, {
@@ -168,17 +179,50 @@ const TinderAnimation: React.FC = () => {
                   ]}
                 >
                   <Image
-                    source={require('../../assets/yokumiru.png')}
-                    style={{ width: '100%', height: '100%' }}
+                    source={
+                      isLook
+                        ? require('../../assets/yokumiruEnable.png')
+                        : require('../../assets/yokumiru.png')
+                    }
+                    style={{
+                      width: screen.width * 0.2,
+                      height: 'auto',
+                      aspectRatio: 48 / 41,
+                    }}
                   />
                 </TouchableOpacity>
               </View>
               <CharaAnimation number={charaAnimationMode} screen={screen} />
+              <Text
+                style={{
+                  position: 'absolute',
+                  top: screen.width * 0.3,
+                  width: screen.width * 0.9,
+                  fontSize: 48,
+                  color: RandomColors[character.colorNumber].charaColor,
+                  fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+                  display: isLook ? 'none' : 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                あああ
+              </Text>
             </Animated.View>
           ) : (
             <>
               <RenderCharacterInfo character={character as RemindItem} />
               <CharaAnimation number={0} screen={screen} />
+              <Image
+                source={require('../../assets/yokumiru.png')}
+                style={[
+                  styles.lookButton,
+                  {
+                    top: screen.width * 0.6,
+                    width: screen.width * 0.2,
+                    height: screen.width * 0.2,
+                  },
+                ]}
+              />
             </>
           ),
         )
@@ -191,7 +235,7 @@ const TinderAnimation: React.FC = () => {
     const fetchData = async () => {
       const fetchedRemindItem = await fetchRemindItem();
       fetchedRemindItem.forEach((item) => {
-        item.colorNumber = Math.floor(Math.random() * RandomColors.length );
+        item.colorNumber = Math.floor(Math.random() * RandomColors.length);
       });
       setRemindItemStates(fetchedRemindItem);
       const refs = Array(remindItemStates.length)
