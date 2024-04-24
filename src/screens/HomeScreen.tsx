@@ -200,7 +200,9 @@ const TinderAnimation: React.FC = () => {
                   width: screen.width * 0.9,
                   fontSize: 48,
                   color: RandomColors[character.colorNumber].charaColor,
-                  fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+                  fontFamily: fontsLoaded
+                    ? 'DelaGothicOne_400Regular'
+                    : undefined,
                   display: isLook ? 'none' : 'flex',
                   textAlign: 'center',
                 }}
