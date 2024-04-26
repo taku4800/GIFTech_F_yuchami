@@ -213,26 +213,28 @@ const TinderAnimation: React.FC = () => {
     </>
   );
 
-  const CompleteCards = <>
-  <Image
-    source={require('../../assets/done1.png')}
-    style={{
-      width: screen.width * 0.5,
-      height: 'auto',
-      aspectRatio: 283/346,
-      alignSelf: 'center',
-    }}
-  />
-  <Image
-    source={require('../../assets/done2.png')}
-    style={{
-      width: screen.width * 0.5,
-      height: 'auto',
-      aspectRatio: 189/307,
-      alignSelf: 'center',
-    }}
-  />
-</>;
+  const CompleteCards = (
+    <>
+      <Image
+        source={require('../../assets/done1.png')}
+        style={{
+          width: screen.width * 0.5,
+          height: 'auto',
+          aspectRatio: 283 / 346,
+          alignSelf: 'center',
+        }}
+      />
+      <Image
+        source={require('../../assets/done2.png')}
+        style={{
+          width: screen.width * 0.5,
+          height: 'auto',
+          aspectRatio: 189 / 307,
+          alignSelf: 'center',
+        }}
+      />
+    </>
+  );
 
   const LoadingComponents = <Text>Loading...</Text>;
 
