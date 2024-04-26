@@ -39,6 +39,7 @@ const TinderAnimation: React.FC = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [previousCardStatus, setPreviousCardStatus] = useState<string>('中立');
   const [previousCardColor, setPreviousCardColor] = useState<string>('');
+  let swiped:string = ""
   const motionSound1 = useRef(new Audio.Sound()).current;
   const motionSound2 = useRef(new Audio.Sound()).current;
   const motionSound3 = useRef(new Audio.Sound()).current;
@@ -67,6 +68,22 @@ const TinderAnimation: React.FC = () => {
     } catch (error) {
       console.error('効果音の再生中にエラーが発生しました', error);
     }
+  };
+
+  const fetchData = async () => {
+    const fetchedRemindItem = await fetchRemindItem();
+    if (fetchedRemindItem.length == 0) {
+      setIsEmpty(true);
+    }
+    fetchedRemindItem.forEach((item) => {
+      item.colorNumber = Math.floor(Math.random() * RandomColors.length);
+    });
+    setRemindItemStates(fetchedRemindItem);
+    const refs = Array(remindItemStates.length)
+      .fill(0)
+      .map((i) => React.createRef());
+    setChildRefs(refs);
+    setIsLoading(false);
   };
 
   const RenderCharacterInfo = React.useMemo(
@@ -142,12 +159,14 @@ const TinderAnimation: React.FC = () => {
             setPreviousCardColor(
               RandomColors[character.colorNumber].charaColor,
             );
+            swiped="持った";
           }
 
           if (gestureState.dx < -ANGLE_THRESHOLD) {
             playSound(2);
             postProblem(character);
             setPreviousCardStatus('持ってない');
+            swiped="持ってない";
           }
 
           // カードを元の位置に戻すアニメーション
@@ -159,7 +178,10 @@ const TinderAnimation: React.FC = () => {
             duration: 500, // アニメーションの持続時間
             useNativeDriver: false,
           }).start(() => {
-            outOfFrame(character.id);
+            outOfFrame(
+              character.id,
+              swiped
+            );
             setCharaAnimationMode(0);
             console.log('OK');
             animationManager.setValue({ x: 0, y: 0 });
@@ -337,41 +359,31 @@ const TinderAnimation: React.FC = () => {
 
   useEffect(() => {
     // APIから確認リストを取得する
-    const fetchData = async () => {
-      await motionSound1.loadAsync(require('../../assets/sounds/01_hold.mp3'));
-      await motionSound2.loadAsync(
+    motionSound1.loadAsync(require('../../assets/sounds/01_hold.mp3'));
+      motionSound2.loadAsync(
         require('../../assets/sounds/02_mottenai.mp3'),
       );
-      await motionSound3.loadAsync(
+      motionSound3.loadAsync(
         require('../../assets/sounds/03_yokumiru.mp3'),
       );
-      await motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
-      const fetchedRemindItem = await fetchRemindItem();
-      if (fetchedRemindItem.length == 0) {
-        setIsEmpty(true);
-      }
-      fetchedRemindItem.forEach((item) => {
-        item.colorNumber = Math.floor(Math.random() * RandomColors.length);
-      });
-      setRemindItemStates(fetchedRemindItem);
-      const refs = Array(remindItemStates.length)
-        .fill(0)
-        .map((i) => React.createRef());
-      setChildRefs(refs);
-      setIsLoading(false);
-    };
+      motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
     fetchData();
   }, []);
 
   // TinderCardが画面外に移動したら発動
-  const outOfFrame = (id: number) => {
+  const outOfFrame = (id: number, mode: string) => {
     console.log(id + ' left the screen!');
     // 該当のTinderCardを削除
-    setRemindItemStates((prevState) =>
-      prevState.filter((character) => character.id !== id),
-    );
+    if (mode == '持った') {
+      setRemindItemStates((prevState) =>
+        prevState.filter((character) => character.id !== id),
+      );
+    } else {
+      setRemindItemStates((prevState) => prevState.filter((character) => character.id == id).concat(
+        prevState.filter((character) => character.id !== id))
+      );
+    }
   };
-
   return (
     <View
       style={[styles.container, { width: screen.width, height: screen.height }]}
