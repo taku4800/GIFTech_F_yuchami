@@ -4357,9 +4357,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.746
-  resolution: "electron-to-chromium@npm:1.4.746"
-  checksum: 1ff47105510e9a6dbc542d7165b88e030c8f2c815b30683ca05d8bc1a24e8f03e57caa0dc03959b08860b0465f9645edea5c682400da5b79b71ce9ddbb89a3d6
+  version: 1.4.749
+  resolution: "electron-to-chromium@npm:1.4.749"
+  checksum: 6a448071e12918fd053fb8d4472178d8c916c9242b8ba0e0c5cb66d7c2f8602bc50e6a6d8bc48bff1fac67be63713e859ddae3353c28ee43cad8970b0ed78aba
   languageName: node
   linkType: hard
 
@@ -4992,9 +4992,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.234.0
-  resolution: "flow-parser@npm:0.234.0"
-  checksum: 3ea6cd6c3a9104c76343117703ceffe048be56d1cf2e89fff26fe980e0e6652e27c293b33ac2defd57f33a49fe4e537a50567fcbbbb4371dae3042daacbdcd5d
+  version: 0.235.1
+  resolution: "flow-parser@npm:0.235.1"
+  checksum: 6960c7374a88e8b3341bc23d69e63f59aee405f202380c2494a1986c1f33af7a9986e62ad2dbc7cc4d914134db6c53d715f08eb6bc978275b64f0515e995a252
   languageName: node
   linkType: hard
 
@@ -6673,9 +6673,9 @@ __metadata:
   linkType: hard
 
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "lru-cache@npm:10.2.0"
-  checksum: c9847612aa2daaef102d30542a8d6d9b2c2bb36581c1bf0dc3ebf5e5f3352c772a749e604afae2e46873b930a9e9523743faac4e5b937c576ab29196774712ee
+  version: 10.2.1
+  resolution: "lru-cache@npm:10.2.1"
+  checksum: e5b4aa7c60e154d27b8ff3e375f8c8cba6be5e94d4048d757588dc371941c15c11ab859d3a402dab33d338d082be9af569761af27a6bc0a9d91376900abb690e
   languageName: node
   linkType: hard
 
@@ -8111,9 +8111,9 @@ __metadata:
   linkType: hard
 
 "react-is@npm:^16.12.0 || ^17.0.0 || ^18.0.0, react-is@npm:^18.0.0":
-  version: 18.2.0
-  resolution: "react-is@npm:18.2.0"
-  checksum: 6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
+  version: 18.3.0
+  resolution: "react-is@npm:18.3.0"
+  checksum: 88fed0b155686de74699d8815115be449b15b17ec78e0d6df994af5b9d02d0661fd5688a9ef43fd0a140b8db1e39786b611803addf413477209820e2d7ac793e
   languageName: node
   linkType: hard
 
@@ -8191,10 +8191,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-refresh@npm:0.14.0, react-refresh@npm:^0.14.0":
+"react-refresh@npm:0.14.0":
   version: 0.14.0
   resolution: "react-refresh@npm:0.14.0"
   checksum: b8ae07ad153357d77830928a7f1fc2df837aabefee907fa273ba04c7643f3b860e986f1d4b7ada9b721c8d79b8c24b5b911a314a1a2398b105f1b13d19ea2b8d
+  languageName: node
+  linkType: hard
+
+"react-refresh@npm:^0.14.0":
+  version: 0.14.1
+  resolution: "react-refresh@npm:0.14.1"
+  checksum: 2ec3be9be8a66595968bce983dd1a3ac9b31baa61cb693ab0fc6ea1944fda39265cc17da9acc257e3f3aa7e7786a396f1bc5e18a1f8f55edbdc03f12c7e56596
   languageName: node
   linkType: hard
 

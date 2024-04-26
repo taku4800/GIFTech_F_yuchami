@@ -35,6 +35,8 @@ const TinderAnimation: React.FC = () => {
   const [isLook, setIsLook] = useState<boolean>(false);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
+
+
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
   });
@@ -207,7 +209,7 @@ const TinderAnimation: React.FC = () => {
                   textAlign: 'center',
                 }}
               >
-                あああ
+                {character.name || '忘れてない？'}
               </Text>
             </Animated.View>
           ) : (
@@ -225,6 +227,22 @@ const TinderAnimation: React.FC = () => {
                   },
                 ]}
               />
+              <Text
+                style={{
+                  position: 'absolute',
+                  top: screen.width * 0.3,
+                  width: screen.width * 0.9,
+                  fontSize: 48,
+                  color: RandomColors[character.colorNumber].charaColor,
+                  fontFamily: fontsLoaded
+                    ? 'DelaGothicOne_400Regular'
+                    : undefined,
+                  display: isLook ? 'none' : 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                {character.name || '忘れてない？'}
+              </Text>
             </>
           ),
         )
