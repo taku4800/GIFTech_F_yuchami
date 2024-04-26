@@ -189,9 +189,50 @@ const TinderAnimation: React.FC = () => {
     ],
   };
 
-  const EmptyCards = <Text>データがありません</Text>;
+  const EmptyCards = (
+    <>
+      <Image
+        source={require('../../assets/naiyo.png')}
+        style={{
+          width: screen.width * 0.6,
+          height: 'auto',
+          aspectRatio: 1,
+          alignSelf: 'center',
+        }}
+      />
+      <Text
+        style={{
+          color: '#FF5D18',
+          textAlign: 'center',
+          fontSize: 40,
+          fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+        }}
+      >
+        ナイヨー
+      </Text>
+    </>
+  );
 
-  const CompleteCards = <Text>完了</Text>;
+  const CompleteCards = <>
+  <Image
+    source={require('../../assets/done1.png')}
+    style={{
+      width: screen.width * 0.5,
+      height: 'auto',
+      aspectRatio: 283/346,
+      alignSelf: 'center',
+    }}
+  />
+  <Image
+    source={require('../../assets/done2.png')}
+    style={{
+      width: screen.width * 0.5,
+      height: 'auto',
+      aspectRatio: 189/307,
+      alignSelf: 'center',
+    }}
+  />
+</>;
 
   const LoadingComponents = <Text>Loading...</Text>;
 
@@ -385,11 +426,12 @@ const TinderAnimation: React.FC = () => {
             top: screen.height * 0.8,
             width: screen.width * 0.9,
             fontSize: 48,
-            color: '#000000',
+            color: '#7E7547',
             fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
           }}
         >
-          あと{remindItemStates.length}件
+          あと
+          <Text style={{ color: '#FF1CC0' }}>{remindItemStates.length}</Text>件
         </Text>
       )}
     </View>
