@@ -156,7 +156,7 @@ const TinderAnimation: React.FC = () => {
 
   const RenderCards = React.useMemo(() => {
     return () => {
-      return remindItemStates.length!=0 ? (
+      return remindItemStates.length != 0 ? (
         remindItemStates.map((character, index) =>
           index === remindItemStates.length - 1 ? (
             <Animated.View
