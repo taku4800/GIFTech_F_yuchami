@@ -3,6 +3,6 @@ import Home from './src/screens/HomeScreen';
 import { LogBox } from 'react-native';
 
 export default function App() {
-  LogBox.ignoreAllLogs()
+  LogBox.ignoreAllLogs();
   return <Home />;
 }

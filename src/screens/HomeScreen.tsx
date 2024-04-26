@@ -296,8 +296,12 @@ const TinderAnimation: React.FC = () => {
     // APIから確認リストを取得する
     const fetchData = async () => {
       await motionSound1.loadAsync(require('../../assets/sounds/01_hold.mp3'));
-      await motionSound2.loadAsync(require('../../assets/sounds/02_mottenai.mp3'));
-      await motionSound3.loadAsync(require('../../assets/sounds/03_yokumiru.mp3'));
+      await motionSound2.loadAsync(
+        require('../../assets/sounds/02_mottenai.mp3'),
+      );
+      await motionSound3.loadAsync(
+        require('../../assets/sounds/03_yokumiru.mp3'),
+      );
       await motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
       const fetchedRemindItem = await fetchRemindItem();
       if (fetchedRemindItem.length == 0) {
