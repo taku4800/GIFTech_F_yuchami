@@ -39,7 +39,7 @@ const TinderAnimation: React.FC = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [previousCardStatus, setPreviousCardStatus] = useState<string>('中立');
   const [previousCardColor, setPreviousCardColor] = useState<string>('');
-  let swiped:string = ""
+  let swiped: string = '';
   const motionSound1 = useRef(new Audio.Sound()).current;
   const motionSound2 = useRef(new Audio.Sound()).current;
   const motionSound3 = useRef(new Audio.Sound()).current;
@@ -159,14 +159,14 @@ const TinderAnimation: React.FC = () => {
             setPreviousCardColor(
               RandomColors[character.colorNumber].charaColor,
             );
-            swiped="持った";
+            swiped = '持った';
           }
 
           if (gestureState.dx < -ANGLE_THRESHOLD) {
             playSound(2);
             postProblem(character);
             setPreviousCardStatus('持ってない');
-            swiped="持ってない";
+            swiped = '持ってない';
           }
 
           // カードを元の位置に戻すアニメーション
@@ -178,10 +178,7 @@ const TinderAnimation: React.FC = () => {
             duration: 500, // アニメーションの持続時間
             useNativeDriver: false,
           }).start(() => {
-            outOfFrame(
-              character.id,
-              swiped
-            );
+            outOfFrame(character.id, swiped);
             setCharaAnimationMode(0);
             console.log('OK');
             animationManager.setValue({ x: 0, y: 0 });
@@ -360,13 +357,9 @@ const TinderAnimation: React.FC = () => {
   useEffect(() => {
     // APIから確認リストを取得する
     motionSound1.loadAsync(require('../../assets/sounds/01_hold.mp3'));
-      motionSound2.loadAsync(
-        require('../../assets/sounds/02_mottenai.mp3'),
-      );
-      motionSound3.loadAsync(
-        require('../../assets/sounds/03_yokumiru.mp3'),
-      );
-      motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
+    motionSound2.loadAsync(require('../../assets/sounds/02_mottenai.mp3'));
+    motionSound3.loadAsync(require('../../assets/sounds/03_yokumiru.mp3'));
+    motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
     fetchData();
   }, []);
 
@@ -379,8 +372,10 @@ const TinderAnimation: React.FC = () => {
         prevState.filter((character) => character.id !== id),
       );
     } else {
-      setRemindItemStates((prevState) => prevState.filter((character) => character.id == id).concat(
-        prevState.filter((character) => character.id !== id))
+      setRemindItemStates((prevState) =>
+        prevState
+          .filter((character) => character.id == id)
+          .concat(prevState.filter((character) => character.id !== id)),
       );
     }
   };
