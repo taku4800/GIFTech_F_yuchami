@@ -34,6 +34,8 @@ const TinderAnimation: React.FC = () => {
   const [charaAnimationMode, setCharaAnimationMode] = useState(0);
   const [isLook, setIsLook] = useState<boolean>(false);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
@@ -154,8 +156,7 @@ const TinderAnimation: React.FC = () => {
 
   const RenderCards = React.useMemo(() => {
     return () => {
-      return (
-        remindItemStates &&
+      return remindItemStates.length!=0 ? (
         remindItemStates.map((character, index) =>
           index === remindItemStates.length - 1 ? (
             <Animated.View
@@ -244,6 +245,9 @@ const TinderAnimation: React.FC = () => {
             </>
           ),
         )
+      ) : (
+        // もしremindItemStatesが空だったらTextが表示される
+        <Text>完了</Text>
       );
     };
   }, [remindItemStates, charaAnimationMode, isLook]);
@@ -252,6 +256,9 @@ const TinderAnimation: React.FC = () => {
     // APIから確認リストを取得する
     const fetchData = async () => {
       const fetchedRemindItem = await fetchRemindItem();
+      if (fetchedRemindItem.length == 0) {
+        setIsEmpty(true);
+      }
       fetchedRemindItem.forEach((item) => {
         item.colorNumber = Math.floor(Math.random() * RandomColors.length);
       });
@@ -260,6 +267,7 @@ const TinderAnimation: React.FC = () => {
         .fill(0)
         .map((i) => React.createRef());
       setChildRefs(refs);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -278,7 +286,9 @@ const TinderAnimation: React.FC = () => {
       style={[styles.container, { width: screen.width, height: screen.height }]}
     >
       <View style={[{ width: screen.width * 0.9, height: screen.width * 0.9 }]}>
-        {RenderCards()}
+        {!isLoading && !isEmpty && RenderCards()}
+        {!isLoading && isEmpty && <Text>データがありません</Text>}
+        {isLoading && <Text>Loading...</Text>}
       </View>
     </View>
   );
