@@ -35,8 +35,6 @@ const TinderAnimation: React.FC = () => {
   const [isLook, setIsLook] = useState<boolean>(false);
   const [childRefs, setChildRefs] = useState<React.RefObject<any>[]>([]);
 
-
-
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
   });
