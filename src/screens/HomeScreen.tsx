@@ -348,7 +348,7 @@ const TinderAnimation: React.FC = () => {
             top: screen.height * 0.8,
             width: screen.width * 0.9,
             fontSize: 48,
-            color: "#000000",
+            color: '#000000',
             fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
           }}
         >
