@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Animated,
@@ -18,6 +18,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { RandomColors } from '../utils/ColorThemes';
 import { specificImageInfo } from '../utils/CharacterAnimationPictures';
 import { CharaAnimation } from '../components/CharaAnimation';
+import { Audio } from 'expo-av';
 
 import {
   useFonts,
@@ -38,10 +39,35 @@ const TinderAnimation: React.FC = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [previousCardStatus, setPreviousCardStatus] = useState<string>('中立');
   const [previousCardColor, setPreviousCardColor] = useState<string>('');
+  const motionSound1 = useRef(new Audio.Sound()).current;
+  const motionSound2 = useRef(new Audio.Sound()).current;
+  const motionSound3 = useRef(new Audio.Sound()).current;
+  const motionSound4 = useRef(new Audio.Sound()).current;
 
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
   });
+
+  const playSound = async (num: number) => {
+    try {
+      switch (num) {
+        case 1:
+          await motionSound1.replayAsync();
+          break;
+        case 2:
+          await motionSound2.replayAsync();
+          break;
+        case 3:
+          await motionSound3.replayAsync();
+          break;
+        case 4:
+          await motionSound4.replayAsync();
+          break;
+      }
+    } catch (error) {
+      console.error('効果音の再生中にエラーが発生しました', error);
+    }
+  };
 
   const RenderCharacterInfo = React.useMemo(
     () => (props: any) => {
@@ -110,6 +136,7 @@ const TinderAnimation: React.FC = () => {
           gestureState.dx < -ANGLE_THRESHOLD
         ) {
           if (gestureState.dx > ANGLE_THRESHOLD) {
+            playSound(4);
             postConfirmation(character);
             setPreviousCardStatus('持った');
             setPreviousCardColor(
@@ -118,6 +145,7 @@ const TinderAnimation: React.FC = () => {
           }
 
           if (gestureState.dx < -ANGLE_THRESHOLD) {
+            playSound(2);
             postProblem(character);
             setPreviousCardStatus('持ってない');
           }
@@ -181,6 +209,7 @@ const TinderAnimation: React.FC = () => {
                   <RenderCharacterInfo character={character as RemindItem} />
                   <TouchableOpacity
                     onPress={() => {
+                      playSound(3);
                       setIsLook(!isLook);
                     }}
                     style={[
@@ -266,6 +295,10 @@ const TinderAnimation: React.FC = () => {
   useEffect(() => {
     // APIから確認リストを取得する
     const fetchData = async () => {
+      await motionSound1.loadAsync(require('../../assets/sounds/01_hold.mp3'));
+      await motionSound2.loadAsync(require('../../assets/sounds/02_mottenai.mp3'));
+      await motionSound3.loadAsync(require('../../assets/sounds/03_yokumiru.mp3'));
+      await motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
       const fetchedRemindItem = await fetchRemindItem();
       if (fetchedRemindItem.length == 0) {
         setIsEmpty(true);

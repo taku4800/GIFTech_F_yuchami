@@ -4,7 +4,7 @@ const BASE_URL = 'https://yuchami-tinder-app.fly.dev';
 
 export const fetchRemindItem = async (): Promise<RemindItem[]> => {
   const response = await axios.get(`${BASE_URL}/viewer/remindItemLists`);
-  console.log(response.data[0].remind_items);
+  // console.log(response.data[0].remind_items);
   return response.data[0].remind_items;
 };
 
