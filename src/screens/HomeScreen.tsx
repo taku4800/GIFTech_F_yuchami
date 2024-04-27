@@ -275,73 +275,21 @@ const TinderAnimation: React.FC = () => {
 
   const RenderCards = React.useMemo(() => {
     return () => {
-      return remindItemStates.length != 0
-        ? remindItemStates.map((character, index) =>
-            index === remindItemStates.length - 1 ? (
-              <Animated.View
-                {...createPanResponder(character).panHandlers}
-                key={character.id}
-                style={[animatedStyle]}
-              >
-                <View>
-                  <RenderCharacterInfo character={character as RemindItem} />
-                  <TouchableOpacity
-                    onPress={() => {
-                      playSound(3);
-                      setIsLook(!isLook);
-                    }}
-                    style={[
-                      styles.lookButton,
-                      {
-                        top: screen.width * 0.6,
-                        width: screen.width * 0.2,
-                        height: screen.width * 0.2,
-                      },
-                    ]}
-                  >
-                    <Image
-                      source={
-                        isLook
-                          ? require('../../assets/yokumiruEnable.png')
-                          : require('../../assets/yokumiru.png')
-                      }
-                      style={{
-                        width: screen.width * 0.2,
-                        height: 'auto',
-                        aspectRatio: 48 / 41,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <CharaAnimation
-                  mode={charaAnimationMode}
-                  screen={screen}
-                  theme={RandomColors[character.colorNumber]}
-                  isInit={false}
-                />
-                <Text
-                  style={{
-                    position: 'absolute',
-                    top: screen.width * 0.3,
-                    width: screen.width * 0.9,
-                    fontSize: 48,
-                    color: RandomColors[character.colorNumber].charaColor,
-                    fontFamily: fontsLoaded
-                      ? 'DelaGothicOne_400Regular'
-                      : undefined,
-                    display: isLook ? 'none' : 'flex',
-                    textAlign: 'center',
-                  }}
-                >
-                  {character.name || '忘れてない？'}
-                </Text>
-              </Animated.View>
-            ) : (
-              <>
+      return remindItemStates.length != 0 ? (
+        remindItemStates.map((character, index) =>
+          index === remindItemStates.length - 1 ? (
+            <Animated.View
+              {...createPanResponder(character).panHandlers}
+              key={character.id}
+              style={[animatedStyle]}
+            >
+              <View>
                 <RenderCharacterInfo character={character as RemindItem} />
-                {/* <CharaAnimation theme={RandomColors[character.colorNumber]} mode={charaAnimationMode} screen={screen} koma={currentFrame} isInit={false} /> */}
-                <Image
-                  source={require('../../assets/yokumiru.png')}
+                <TouchableOpacity
+                  onPress={() => {
+                    playSound(3);
+                    setIsLook(!isLook);
+                  }}
                   style={[
                     styles.lookButton,
                     {
@@ -350,135 +298,189 @@ const TinderAnimation: React.FC = () => {
                       height: screen.width * 0.2,
                     },
                   ]}
-                />
-                <Text
-                  style={{
-                    position: 'absolute',
-                    top: screen.width * 0.3,
-                    width: screen.width * 0.9,
-                    fontSize: 48,
-                    color: RandomColors[character.colorNumber].charaColor,
-                    fontFamily: fontsLoaded
-                      ? 'DelaGothicOne_400Regular'
-                      : undefined,
-                    display: isLook ? 'none' : 'flex',
-                    textAlign: 'center',
-                  }}
                 >
-                  {character.name || '忘れてない？'}
-                </Text>
-              </>
-            ),
-          )
-        : <></>
+                  <Image
+                    source={
+                      isLook
+                        ? require('../../assets/yokumiruEnable.png')
+                        : require('../../assets/yokumiru.png')
+                    }
+                    style={{
+                      width: screen.width * 0.2,
+                      height: 'auto',
+                      aspectRatio: 48 / 41,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <CharaAnimation
+                mode={charaAnimationMode}
+                screen={screen}
+                theme={RandomColors[character.colorNumber]}
+                isInit={false}
+              />
+              <Text
+                style={{
+                  position: 'absolute',
+                  top: screen.width * 0.3,
+                  width: screen.width * 0.9,
+                  fontSize: 48,
+                  color: RandomColors[character.colorNumber].charaColor,
+                  fontFamily: fontsLoaded
+                    ? 'DelaGothicOne_400Regular'
+                    : undefined,
+                  display: isLook ? 'none' : 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                {character.name || '忘れてない？'}
+              </Text>
+            </Animated.View>
+          ) : (
+            <>
+              <RenderCharacterInfo character={character as RemindItem} />
+              {/* <CharaAnimation theme={RandomColors[character.colorNumber]} mode={charaAnimationMode} screen={screen} koma={currentFrame} isInit={false} /> */}
+              <Image
+                source={require('../../assets/yokumiru.png')}
+                style={[
+                  styles.lookButton,
+                  {
+                    top: screen.width * 0.6,
+                    width: screen.width * 0.2,
+                    height: screen.width * 0.2,
+                  },
+                ]}
+              />
+              <Text
+                style={{
+                  position: 'absolute',
+                  top: screen.width * 0.3,
+                  width: screen.width * 0.9,
+                  fontSize: 48,
+                  color: RandomColors[character.colorNumber].charaColor,
+                  fontFamily: fontsLoaded
+                    ? 'DelaGothicOne_400Regular'
+                    : undefined,
+                  display: isLook ? 'none' : 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                {character.name || '忘れてない？'}
+              </Text>
+            </>
+          ),
+        )
+      ) : (
+        <></>
+      );
     };
   }, [remindItemStates, charaAnimationMode, isLook]);
 
-  const CompleteCards = notHaveCount === 0 ? (
-    <View style={{ height: screen.height }}>
-      <Image
-        source={require('../../assets/done1.png')}
-        style={{
-          position:'absolute',
-          width: screen.width * 0.5,
-          height: 'auto',
-          aspectRatio: 283 / 346,
-          alignSelf: 'center',
-        
-        }}
-      />
-      <Image
-        source={require('../../assets/done2.png')}
-        style={{
-          position:'absolute',
-          width: screen.width * 0.5,
-          top:screen.height*.4,
-          height: 'auto',
-          aspectRatio: 189 / 307,
-          alignSelf: 'center',
-        }}
-      />
-    </View>
-  ) : (
-    <View style={{ height: screen.height }}>
-      <Image
-        source={require('../../assets/jitome.png')}
-        style={{
-          position:'absolute',
-          top:screen.height*.1,
-          width: screen.width * 0.5,
-          height: 'auto',
-          aspectRatio: 608/600,
-          alignSelf: 'center',
-        }}
-      />
-      <Image
-        source={require('../../assets/jitomeText.png')}
-        style={{
-          position:'absolute',
-          top:screen.height*.4,
-          width: screen.width * 0.5,
-          height: 'auto',
-          aspectRatio: 200/33,
-          alignSelf: 'center',
-        }}
-      />
-      <TouchableOpacity
-        onPress={() => {
-          fetchData().then(() => {
-            setNotHaveCount(0);
-          });
-        }}
-        style={{
-          position: 'absolute',
-          top:screen.height*.65,
-          width: screen.width,
-          height: screen.height * 0.15,
-          alignSelf: 'center',
-        }}
-      >
-        <LinearGradient
+  const CompleteCards =
+    notHaveCount === 0 ? (
+      <View style={{ height: screen.height }}>
+        <Image
+          source={require('../../assets/done1.png')}
           style={{
             position: 'absolute',
-            bottom: 0,
+            width: screen.width * 0.5,
+            height: 'auto',
+            aspectRatio: 283 / 346,
+            alignSelf: 'center',
+          }}
+        />
+        <Image
+          source={require('../../assets/done2.png')}
+          style={{
+            position: 'absolute',
+            width: screen.width * 0.5,
+            top: screen.height * 0.4,
+            height: 'auto',
+            aspectRatio: 189 / 307,
+            alignSelf: 'center',
+          }}
+        />
+      </View>
+    ) : (
+      <View style={{ height: screen.height }}>
+        <Image
+          source={require('../../assets/jitome.png')}
+          style={{
+            position: 'absolute',
+            top: screen.height * 0.1,
+            width: screen.width * 0.5,
+            height: 'auto',
+            aspectRatio: 608 / 600,
+            alignSelf: 'center',
+          }}
+        />
+        <Image
+          source={require('../../assets/jitomeText.png')}
+          style={{
+            position: 'absolute',
+            top: screen.height * 0.4,
+            width: screen.width * 0.5,
+            height: 'auto',
+            aspectRatio: 200 / 33,
+            alignSelf: 'center',
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            fetchData().then(() => {
+              setNotHaveCount(0);
+            });
+          }}
+          style={{
+            position: 'absolute',
+            top: screen.height * 0.65,
             width: screen.width,
             height: screen.height * 0.15,
             alignSelf: 'center',
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-          }}
-          colors={['#21C04D', '#048F65']}
-          start={{ x: 1, y: 0.0 }}
-          end={{ x: 1, y: 1 }}
-          locations={[0.6, 1]}
-        />
-        <Text
-          style={{
-            alignSelf: 'center',
-            textAlign: 'center',
-            paddingTop: 20,
-            color: 'white',
-            fontSize: 18,
-            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
           }}
         >
-          まだ<Text style={{ color: 'red' }}>{notHaveCount}</Text>つ持ってないよ
-        </Text>
-        <Text
-          style={{
-            alignSelf: 'center',
-            textAlign: 'center',
-            color: 'white',
-            fontSize: 32,
-            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
-          }}
-        >
-          再チェックする
-        </Text>
-      </TouchableOpacity>
-      
-    </View>
-  );
+          <LinearGradient
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: screen.width,
+              height: screen.height * 0.15,
+              alignSelf: 'center',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            colors={['#21C04D', '#048F65']}
+            start={{ x: 1, y: 0.0 }}
+            end={{ x: 1, y: 1 }}
+            locations={[0.6, 1]}
+          />
+          <Text
+            style={{
+              alignSelf: 'center',
+              textAlign: 'center',
+              paddingTop: 20,
+              color: 'white',
+              fontSize: 18,
+              fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+            }}
+          >
+            まだ<Text style={{ color: 'red' }}>{notHaveCount}</Text>
+            つ持ってないよ
+          </Text>
+          <Text
+            style={{
+              alignSelf: 'center',
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 32,
+              fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+            }}
+          >
+            再チェックする
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -495,10 +497,10 @@ const TinderAnimation: React.FC = () => {
   const outOfFrame = (id: number) => {
     console.log(id + ' left the screen!');
 
-    if(remindItemStates.length == 1){
-      console.log("Booted");
+    if (remindItemStates.length == 1) {
+      console.log('Booted');
       setPreviousCardStatus('中立');
-      notHaveCount ==0 ? playSound(5):playSound(6);
+      notHaveCount == 0 ? playSound(5) : playSound(6);
     }
 
     // 該当のTinderCardを削除
@@ -511,7 +513,7 @@ const TinderAnimation: React.FC = () => {
     <View
       style={[styles.container, { width: screen.width, height: screen.height }]}
     >
-      {previousCardStatus == '持った'&& remindItemStates.length !== 0  ? (
+      {previousCardStatus == '持った' && remindItemStates.length !== 0 ? (
         <Text
           style={{
             textAlign: 'center',
@@ -525,7 +527,8 @@ const TinderAnimation: React.FC = () => {
         >
           モッターーー
         </Text>
-      ) : previousCardStatus == '持ってない'&& remindItemStates.length !== 0  ? (
+      ) : previousCardStatus == '持ってない' &&
+        remindItemStates.length !== 0 ? (
         <Text
           style={{
             textAlign: 'center',
@@ -571,9 +574,7 @@ const TinderAnimation: React.FC = () => {
           <Text style={{ color: '#FF1CC0' }}>{remindItemStates.length}</Text>件
         </Text>
       )}
-      {!isLoading && !isEmpty && remindItemStates.length === 0 && (
-        CompleteCards
-      )}
+      {!isLoading && !isEmpty && remindItemStates.length === 0 && CompleteCards}
     </View>
   );
 };
