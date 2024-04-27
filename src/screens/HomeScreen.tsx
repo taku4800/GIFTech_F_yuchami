@@ -272,7 +272,7 @@ const TinderAnimation: React.FC = () => {
         }}>{'まだ' + notHaveCount + 'つ持ってないよ'}</Text>
       </TouchableOpacity> */}
       <TouchableOpacity
-      onPress={() => {
+        onPress={() => {
           fetchData();
         }}
         style={{
@@ -284,32 +284,31 @@ const TinderAnimation: React.FC = () => {
         }}
       >
         <LinearGradient
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              width: screen.width,
-              height: screen.height * 0.1,
-              alignSelf: 'center',
-            }}
-            colors={[
-              "#21C04D",
-              "#048F65",
-            ]}
-            start={{ x: 1, y: 0.0 }}
-            end={{ x: 1, y: 1 }}
-            locations={[0.6, 1]}
-          />
-        <Text style={{
-          alignSelf: 'center',
-          textAlign: 'center',
-          height:screen.height * 0.1,
-          lineHeight:screen.height * 0.1,
-          color: 'white',
-          fontSize: 24,
-          fontFamily: fontsLoaded
-          ? 'DelaGothicOne_400Regular'
-          : undefined,
-        }}>{'まだ' + notHaveCount + 'つ持ってないよ'}</Text>
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: screen.width,
+            height: screen.height * 0.1,
+            alignSelf: 'center',
+          }}
+          colors={['#21C04D', '#048F65']}
+          start={{ x: 1, y: 0.0 }}
+          end={{ x: 1, y: 1 }}
+          locations={[0.6, 1]}
+        />
+        <Text
+          style={{
+            alignSelf: 'center',
+            textAlign: 'center',
+            height: screen.height * 0.1,
+            lineHeight: screen.height * 0.1,
+            color: 'white',
+            fontSize: 24,
+            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+          }}
+        >
+          {'まだ' + notHaveCount + 'つ持ってないよ'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
