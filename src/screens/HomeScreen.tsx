@@ -51,7 +51,6 @@ const TinderAnimation: React.FC = () => {
     DelaGothicOne_400Regular,
   });
 
-
   const playSound = async (num: number) => {
     try {
       switch (num) {
@@ -90,17 +89,17 @@ const TinderAnimation: React.FC = () => {
   };
 
   const CharaAnimation = (props: any) => {
-    let num:number=0;
-    if(props.isInit){
-      num=props.theme.charaType*10+props.koma
-    }else if(props.mode==0){
-      num=props.theme.charaType*10+3;
-    }else{
-      num=props.theme.charaType*10+3+props.mode*3;
+    let num: number = 0;
+    if (props.isInit) {
+      num = props.theme.charaType * 10 + props.koma;
+    } else if (props.mode == 0) {
+      num = props.theme.charaType * 10 + 3;
+    } else {
+      num = props.theme.charaType * 10 + 3 + props.mode * 3;
     }
-  
+
     console.log(num);
-  
+
     return (
       <Image
         source={specificImageInfo[num]} // 画像のパスを指定
@@ -170,14 +169,13 @@ const TinderAnimation: React.FC = () => {
             useNativeDriver: false,
           },
         )(event, gestureState);
-        if(
+        if (
           charaMote !== (gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0)
-
-        )
-        {
-          setCharaAnimationMode(gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0);
+        ) {
+          setCharaAnimationMode(
+            gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0,
+          );
         }
-
       },
       onPanResponderRelease: (
         _: any,
@@ -288,7 +286,6 @@ const TinderAnimation: React.FC = () => {
       <TouchableOpacity
         onPress={() => {
           fetchData();
-
         }}
         style={{
           position: 'absolute',
@@ -370,7 +367,12 @@ const TinderAnimation: React.FC = () => {
                     />
                   </TouchableOpacity>
                 </View>
-                <CharaAnimation mode={charaAnimationMode} screen={screen} theme={RandomColors[character.colorNumber]} isInit={false}/>
+                <CharaAnimation
+                  mode={charaAnimationMode}
+                  screen={screen}
+                  theme={RandomColors[character.colorNumber]}
+                  isInit={false}
+                />
                 <Text
                   style={{
                     position: 'absolute',
@@ -513,4 +515,3 @@ const TinderAnimation: React.FC = () => {
 };
 
 export default TinderAnimation;
-

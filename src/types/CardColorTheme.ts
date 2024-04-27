@@ -2,5 +2,5 @@ type CardColorTheme = {
   startColor: string;
   endColor: string;
   charaColor: string;
-  charaType:number;
+  charaType: number;
 };
