@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Home from './src/screens/HomeScreen';
-import { setupBackgroundHandler, handleAppStateChange } from './src/backgrounds/BackgroundHandler';
+import {
+  setupBackgroundHandler,
+  handleAppStateChange,
+} from './src/backgrounds/BackgroundHandler';
 import { LogBox, AppState } from 'react-native';
 
 export default function App() {
@@ -10,7 +13,7 @@ export default function App() {
   useEffect(() => {
     setupBackgroundHandler();
     const unsubscribe = handleAppStateChange(() => {
-      setAppKey(prevKey => prevKey + 1); // アプリがフォアグラウンドに戻ったときにキーを更新
+      setAppKey((prevKey) => prevKey + 1); // アプリがフォアグラウンドに戻ったときにキーを更新
     });
     return unsubscribe; // クリーンアップ関数として返す
   }, []);
