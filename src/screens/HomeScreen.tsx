@@ -43,7 +43,9 @@ const TinderAnimation: React.FC = () => {
   const motionSound2 = useRef(new Audio.Sound()).current;
   const motionSound3 = useRef(new Audio.Sound()).current;
   const motionSound4 = useRef(new Audio.Sound()).current;
-  let notHaveCount = 0;
+  const motionSound5 = useRef(new Audio.Sound()).current;
+  const motionSound6 = useRef(new Audio.Sound()).current;
+  const [notHaveCount, setNotHaveCount] = useState<number>(0);
 
   let charaMote = 0;
 
@@ -65,6 +67,12 @@ const TinderAnimation: React.FC = () => {
           break;
         case 4:
           await motionSound4.replayAsync();
+          break;
+        case 5:
+          await motionSound5.replayAsync();
+          break;
+        case 6:
+          await motionSound6.replayAsync();
           break;
       }
     } catch (error) {
@@ -97,8 +105,6 @@ const TinderAnimation: React.FC = () => {
     } else {
       num = props.theme.charaType * 10 + 3 + props.mode * 3;
     }
-
-    console.log(num);
 
     return (
       <Image
@@ -198,6 +204,8 @@ const TinderAnimation: React.FC = () => {
             playSound(2);
             postProblem(character);
             setPreviousCardStatus('持ってない');
+            setNotHaveCount(notHaveCount + 1);
+            console.log(notHaveCount);
           }
 
           // カードを元の位置に戻すアニメーション
@@ -261,68 +269,6 @@ const TinderAnimation: React.FC = () => {
         ナイヨー
       </Text>
     </>
-  );
-
-  const CompleteCards = (
-    <View>
-      <Image
-        source={require('../../assets/done1.png')}
-        style={{
-          width: screen.width * 0.5,
-          height: 'auto',
-          aspectRatio: 283 / 346,
-          alignSelf: 'center',
-        }}
-      />
-      <Image
-        source={require('../../assets/done2.png')}
-        style={{
-          width: screen.width * 0.5,
-          height: 'auto',
-          aspectRatio: 189 / 307,
-          alignSelf: 'center',
-        }}
-      />
-      <TouchableOpacity
-        onPress={() => {
-          fetchData();
-        }}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          width: screen.width,
-          height: screen.height * 0.1,
-          alignSelf: 'center',
-        }}
-      >
-        <LinearGradient
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            width: screen.width,
-            height: screen.height * 0.1,
-            alignSelf: 'center',
-          }}
-          colors={['#21C04D', '#048F65']}
-          start={{ x: 1, y: 0.0 }}
-          end={{ x: 1, y: 1 }}
-          locations={[0.6, 1]}
-        />
-        <Text
-          style={{
-            alignSelf: 'center',
-            textAlign: 'center',
-            height: screen.height * 0.1,
-            lineHeight: screen.height * 0.1,
-            color: 'white',
-            fontSize: 24,
-            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
-          }}
-        >
-          {'まだ' + notHaveCount + 'つ持ってないよ'}
-        </Text>
-      </TouchableOpacity>
-    </View>
   );
 
   const LoadingComponents = <Text>Loading...</Text>;
@@ -424,10 +370,115 @@ const TinderAnimation: React.FC = () => {
               </>
             ),
           )
-        : // もしremindItemStatesが空だったらTextが表示される
-          CompleteCards;
+        : <></>
     };
   }, [remindItemStates, charaAnimationMode, isLook]);
+
+  const CompleteCards = notHaveCount === 0 ? (
+    <View style={{ height: screen.height }}>
+      <Image
+        source={require('../../assets/done1.png')}
+        style={{
+          position:'absolute',
+          width: screen.width * 0.5,
+          height: 'auto',
+          aspectRatio: 283 / 346,
+          alignSelf: 'center',
+        
+        }}
+      />
+      <Image
+        source={require('../../assets/done2.png')}
+        style={{
+          position:'absolute',
+          width: screen.width * 0.5,
+          top:screen.height*.4,
+          height: 'auto',
+          aspectRatio: 189 / 307,
+          alignSelf: 'center',
+        }}
+      />
+    </View>
+  ) : (
+    <View style={{ height: screen.height }}>
+      <Image
+        source={require('../../assets/jitome.png')}
+        style={{
+          position:'absolute',
+          top:screen.height*.1,
+          width: screen.width * 0.5,
+          height: 'auto',
+          aspectRatio: 608/600,
+          alignSelf: 'center',
+        }}
+      />
+      <Image
+        source={require('../../assets/jitomeText.png')}
+        style={{
+          position:'absolute',
+          top:screen.height*.4,
+          width: screen.width * 0.5,
+          height: 'auto',
+          aspectRatio: 200/33,
+          alignSelf: 'center',
+        }}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          fetchData().then(() => {
+            setNotHaveCount(0);
+          });
+        }}
+        style={{
+          position: 'absolute',
+          top:screen.height*.65,
+          width: screen.width,
+          height: screen.height * 0.15,
+          alignSelf: 'center',
+        }}
+      >
+        <LinearGradient
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: screen.width,
+            height: screen.height * 0.15,
+            alignSelf: 'center',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}
+          colors={['#21C04D', '#048F65']}
+          start={{ x: 1, y: 0.0 }}
+          end={{ x: 1, y: 1 }}
+          locations={[0.6, 1]}
+        />
+        <Text
+          style={{
+            alignSelf: 'center',
+            textAlign: 'center',
+            paddingTop: 20,
+            color: 'white',
+            fontSize: 18,
+            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+          }}
+        >
+          まだ<Text style={{ color: 'red' }}>{notHaveCount}</Text>つ持ってないよ
+        </Text>
+        <Text
+          style={{
+            alignSelf: 'center',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: 32,
+            fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
+          }}
+        >
+          再チェックする
+        </Text>
+      </TouchableOpacity>
+      
+    </View>
+  );
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -435,22 +486,32 @@ const TinderAnimation: React.FC = () => {
     motionSound2.loadAsync(require('../../assets/sounds/02_mottenai.mp3'));
     motionSound3.loadAsync(require('../../assets/sounds/03_yokumiru.mp3'));
     motionSound4.loadAsync(require('../../assets/sounds/04_motta.mp3'));
+    motionSound5.loadAsync(require('../../assets/sounds/mottennder.mp3'));
+    motionSound6.loadAsync(require('../../assets/sounds/mottenender.mp3'));
     fetchData();
   }, []);
 
   // TinderCardが画面外に移動したら発動
   const outOfFrame = (id: number) => {
     console.log(id + ' left the screen!');
+
+    if(remindItemStates.length == 1){
+      console.log("Booted");
+      setPreviousCardStatus('中立');
+      notHaveCount ==0 ? playSound(5):playSound(6);
+    }
+
     // 該当のTinderCardを削除
     setRemindItemStates((prevState) =>
       prevState.filter((character) => character.id !== id),
     );
+    // playSound
   };
   return (
     <View
       style={[styles.container, { width: screen.width, height: screen.height }]}
     >
-      {previousCardStatus == '持った' ? (
+      {previousCardStatus == '持った'&& remindItemStates.length !== 0  ? (
         <Text
           style={{
             textAlign: 'center',
@@ -464,7 +525,7 @@ const TinderAnimation: React.FC = () => {
         >
           モッターーー
         </Text>
-      ) : previousCardStatus == '持ってない' ? (
+      ) : previousCardStatus == '持ってない'&& remindItemStates.length !== 0  ? (
         <Text
           style={{
             textAlign: 'center',
@@ -509,6 +570,9 @@ const TinderAnimation: React.FC = () => {
           あと
           <Text style={{ color: '#FF1CC0' }}>{remindItemStates.length}</Text>件
         </Text>
+      )}
+      {!isLoading && !isEmpty && remindItemStates.length === 0 && (
+        CompleteCards
       )}
     </View>
   );
