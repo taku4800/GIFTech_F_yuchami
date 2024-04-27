@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
+  Button,
 } from 'react-native';
 import { PanResponderGestureState, Image } from 'react-native';
 import {
@@ -39,11 +40,11 @@ const TinderAnimation: React.FC = () => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [previousCardStatus, setPreviousCardStatus] = useState<string>('中立');
   const [previousCardColor, setPreviousCardColor] = useState<string>('');
-  let swiped: string = '';
   const motionSound1 = useRef(new Audio.Sound()).current;
   const motionSound2 = useRef(new Audio.Sound()).current;
   const motionSound3 = useRef(new Audio.Sound()).current;
   const motionSound4 = useRef(new Audio.Sound()).current;
+  let notHaveCount = 0;
 
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
@@ -159,14 +160,12 @@ const TinderAnimation: React.FC = () => {
             setPreviousCardColor(
               RandomColors[character.colorNumber].charaColor,
             );
-            swiped = '持った';
           }
 
           if (gestureState.dx < -ANGLE_THRESHOLD) {
             playSound(2);
             postProblem(character);
             setPreviousCardStatus('持ってない');
-            swiped = '持ってない';
           }
 
           // カードを元の位置に戻すアニメーション
@@ -178,7 +177,7 @@ const TinderAnimation: React.FC = () => {
             duration: 500, // アニメーションの持続時間
             useNativeDriver: false,
           }).start(() => {
-            outOfFrame(character.id, swiped);
+            outOfFrame(character.id);
             setCharaAnimationMode(0);
             console.log('OK');
             animationManager.setValue({ x: 0, y: 0 });
@@ -233,7 +232,7 @@ const TinderAnimation: React.FC = () => {
   );
 
   const CompleteCards = (
-    <>
+    <View>
       <Image
         source={require('../../assets/done1.png')}
         style={{
@@ -252,7 +251,67 @@ const TinderAnimation: React.FC = () => {
           alignSelf: 'center',
         }}
       />
-    </>
+      {/* <TouchableOpacity
+        onPress={() => {
+          fetchData();
+        }}
+        style={{
+          position: 'absolute',
+          top:screen.height*.6,
+          width: screen.width,
+          height: screen.height*.1,
+          aspectRatio: 189 / 307,
+          alignSelf: 'center',
+          backgroundColor: 'green',
+        }}
+      >
+        <Text style={{
+          alignSelf: 'center',
+          textAlign: 'center',
+          color: 'white',
+        }}>{'まだ' + notHaveCount + 'つ持ってないよ'}</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+      onPress={() => {
+          fetchData();
+        }}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: screen.width,
+          height: screen.height * 0.1,
+          alignSelf: 'center',
+        }}
+      >
+        <LinearGradient
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: screen.width,
+              height: screen.height * 0.1,
+              alignSelf: 'center',
+            }}
+            colors={[
+              "#21C04D",
+              "#048F65",
+            ]}
+            start={{ x: 1, y: 0.0 }}
+            end={{ x: 1, y: 1 }}
+            locations={[0.6, 1]}
+          />
+        <Text style={{
+          alignSelf: 'center',
+          textAlign: 'center',
+          height:screen.height * 0.1,
+          lineHeight:screen.height * 0.1,
+          color: 'white',
+          fontSize: 24,
+          fontFamily: fontsLoaded
+          ? 'DelaGothicOne_400Regular'
+          : undefined,
+        }}>{'まだ' + notHaveCount + 'つ持ってないよ'}</Text>
+      </TouchableOpacity>
+    </View>
   );
 
   const LoadingComponents = <Text>Loading...</Text>;
@@ -364,20 +423,12 @@ const TinderAnimation: React.FC = () => {
   }, []);
 
   // TinderCardが画面外に移動したら発動
-  const outOfFrame = (id: number, mode: string) => {
+  const outOfFrame = (id: number) => {
     console.log(id + ' left the screen!');
     // 該当のTinderCardを削除
-    if (mode == '持った') {
-      setRemindItemStates((prevState) =>
-        prevState.filter((character) => character.id !== id),
-      );
-    } else {
-      setRemindItemStates((prevState) =>
-        prevState
-          .filter((character) => character.id == id)
-          .concat(prevState.filter((character) => character.id !== id)),
-      );
-    }
+    setRemindItemStates((prevState) =>
+      prevState.filter((character) => character.id !== id),
+    );
   };
   return (
     <View
@@ -395,7 +446,7 @@ const TinderAnimation: React.FC = () => {
             fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
           }}
         >
-          持った
+          モッターーー
         </Text>
       ) : previousCardStatus == '持ってない' ? (
         <Text
@@ -409,7 +460,7 @@ const TinderAnimation: React.FC = () => {
             fontFamily: fontsLoaded ? 'DelaGothicOne_400Regular' : undefined,
           }}
         >
-          持っていない
+          モッテナイ…
         </Text>
       ) : (
         <Text
