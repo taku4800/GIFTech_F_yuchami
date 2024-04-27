@@ -18,7 +18,6 @@ import styles from '../styles/screens/HomeScreen.style';
 import { LinearGradient } from 'expo-linear-gradient';
 import { RandomColors } from '../utils/ColorThemes';
 import { specificImageInfo } from '../utils/CharacterAnimationPictures';
-import { CharaAnimation } from '../components/CharaAnimation';
 import { Audio } from 'expo-av';
 
 import {
@@ -46,9 +45,12 @@ const TinderAnimation: React.FC = () => {
   const motionSound4 = useRef(new Audio.Sound()).current;
   let notHaveCount = 0;
 
+  let charaMote = 0;
+
   let [fontsLoaded] = useFonts({
     DelaGothicOne_400Regular,
   });
+
 
   const playSound = async (num: number) => {
     try {
@@ -85,6 +87,33 @@ const TinderAnimation: React.FC = () => {
       .map((i) => React.createRef());
     setChildRefs(refs);
     setIsLoading(false);
+  };
+
+  const CharaAnimation = (props: any) => {
+    let num:number=0;
+    if(props.isInit){
+      num=props.theme.charaType*10+props.koma
+    }else if(props.mode==0){
+      num=props.theme.charaType*10+3;
+    }else{
+      num=props.theme.charaType*10+3+props.mode*3;
+    }
+  
+    console.log(num);
+  
+    return (
+      <Image
+        source={specificImageInfo[num]} // 画像のパスを指定
+        style={[
+          styles.cardChara,
+          {
+            width: props.screen.width * 0.4,
+            height: props.screen.width * 0.4,
+            top: -props.screen.width * 0.15,
+          },
+        ]}
+      />
+    );
   };
 
   const RenderCharacterInfo = React.useMemo(
@@ -141,9 +170,14 @@ const TinderAnimation: React.FC = () => {
             useNativeDriver: false,
           },
         )(event, gestureState);
-        setCharaAnimationMode(
-          gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0,
-        );
+        if(
+          charaMote !== (gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0)
+
+        )
+        {
+          setCharaAnimationMode(gestureState.dx > 0 ? 1 : gestureState.dx < 0 ? 2 : 0);
+        }
+
       },
       onPanResponderRelease: (
         _: any,
@@ -251,29 +285,10 @@ const TinderAnimation: React.FC = () => {
           alignSelf: 'center',
         }}
       />
-      {/* <TouchableOpacity
-        onPress={() => {
-          fetchData();
-        }}
-        style={{
-          position: 'absolute',
-          top:screen.height*.6,
-          width: screen.width,
-          height: screen.height*.1,
-          aspectRatio: 189 / 307,
-          alignSelf: 'center',
-          backgroundColor: 'green',
-        }}
-      >
-        <Text style={{
-          alignSelf: 'center',
-          textAlign: 'center',
-          color: 'white',
-        }}>{'まだ' + notHaveCount + 'つ持ってないよ'}</Text>
-      </TouchableOpacity> */}
       <TouchableOpacity
         onPress={() => {
           fetchData();
+
         }}
         style={{
           position: 'absolute',
@@ -355,7 +370,7 @@ const TinderAnimation: React.FC = () => {
                     />
                   </TouchableOpacity>
                 </View>
-                <CharaAnimation number={charaAnimationMode} screen={screen} />
+                <CharaAnimation mode={charaAnimationMode} screen={screen} theme={RandomColors[character.colorNumber]} isInit={false}/>
                 <Text
                   style={{
                     position: 'absolute',
@@ -376,7 +391,7 @@ const TinderAnimation: React.FC = () => {
             ) : (
               <>
                 <RenderCharacterInfo character={character as RemindItem} />
-                <CharaAnimation number={0} screen={screen} />
+                {/* <CharaAnimation theme={RandomColors[character.colorNumber]} mode={charaAnimationMode} screen={screen} koma={currentFrame} isInit={false} /> */}
                 <Image
                   source={require('../../assets/yokumiru.png')}
                   style={[
@@ -498,3 +513,4 @@ const TinderAnimation: React.FC = () => {
 };
 
 export default TinderAnimation;
+

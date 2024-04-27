@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   cardChara: {
     position: 'absolute',
-    left: '35%',
+    left: '30%',
     alignItems: 'center',
     overflow: 'hidden',
     resizeMode: 'cover',
