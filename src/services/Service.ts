@@ -16,6 +16,8 @@ export const postConfirmation = async (item: RemindItem) => {
       status: '確認完了',
     },
   );
+  console.log(response.statusText);
+  console.log(response.data);
   return;
 };
 export const postProblem = async (item: RemindItem) => {
@@ -26,5 +28,7 @@ export const postProblem = async (item: RemindItem) => {
       status: 'トラブルあり',
     },
   );
+  console.log(response.statusText);
+  console.log(response.data);
   return;
 };

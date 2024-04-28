@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 1,
     overflow: 'hidden',
-    borderRadius: 20,
+    borderRadius: 80,
     resizeMode: 'cover',
   },
   cardChara: {
@@ -56,6 +56,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     resizeMode: 'contain',
+  },
+  norhumContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  leftTextNorhumContainer: {
+    color:'white',
+    padding: 10,
+  },
+  rightTextNorhumContainer: {
+    color:'white',
+    padding: 10,
   },
 });
 
