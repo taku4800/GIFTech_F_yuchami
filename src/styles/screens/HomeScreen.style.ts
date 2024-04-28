@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   leftTextNorhumContainer: {
-    color:'white',
+    color: 'white',
     padding: 10,
   },
   rightTextNorhumContainer: {
-    color:'white',
+    color: 'white',
     padding: 10,
   },
 });

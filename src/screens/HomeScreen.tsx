@@ -87,7 +87,7 @@ const TinderAnimation: React.FC = () => {
       setIsEmpty(true);
     }
     fetchedRemindItem.forEach((item) => {
-      item.colorNumber = item.order-1;
+      item.colorNumber = item.order - 1;
     });
     fetchedRemindItem.sort((a, b) => b.order - a.order);
     setRemindItemStates(fetchedRemindItem);

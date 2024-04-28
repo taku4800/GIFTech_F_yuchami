@@ -3,5 +3,5 @@ type RemindItem = {
   source: string;
   colorNumber: number;
   name?: string;
-  order:number;
+  order: number;
 };
