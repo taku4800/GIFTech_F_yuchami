@@ -46,7 +46,6 @@ const TinderAnimation: React.FC = () => {
   const motionSound5 = useRef(new Audio.Sound()).current;
   const motionSound6 = useRef(new Audio.Sound()).current;
   const [notHaveCount, setNotHaveCount] = useState<number>(0);
-  let isComplete: boolean = true;
 
   let charaMote = 0;
 
@@ -208,7 +207,6 @@ const TinderAnimation: React.FC = () => {
             postProblem(character);
             setPreviousCardStatus('持ってない');
             setNotHaveCount(notHaveCount + 1);
-            isComplete = false;
           }
 
           // カードを元の位置に戻すアニメーション
@@ -257,7 +255,6 @@ const TinderAnimation: React.FC = () => {
           setIsLoading(true);
           fetchData().then(() => {
             setNotHaveCount(0);
-            isComplete = true;
           });
         }}
       >
@@ -419,8 +416,12 @@ const TinderAnimation: React.FC = () => {
     };
   }, [remindItemStates, charaAnimationMode, isLook]);
 
-  const CompleteCards =
-    notHaveCount === 0 ? (
+  const TypeA = ()=>{
+    useEffect(() => {
+      playSound(5);
+    }, []);
+
+    return (
       <>
         <Text
           style={{
@@ -440,7 +441,6 @@ const TinderAnimation: React.FC = () => {
             setIsLoading(true);
             fetchData().then(() => {
               setNotHaveCount(0);
-              isComplete = true;
             });
           }}
         >
@@ -469,7 +469,15 @@ const TinderAnimation: React.FC = () => {
           </View>
         </TouchableOpacity>
       </>
-    ) : (
+    )
+  }
+
+  const TypeB = ()=>{
+    useEffect(() => {
+      playSound(6);
+    }, []);
+
+    return (
       <>
         <Text
           style={{
@@ -569,7 +577,11 @@ const TinderAnimation: React.FC = () => {
           </TouchableOpacity>
         </View>
       </>
-    );
+    )
+  }
+
+  const CompleteCards =
+    notHaveCount === 0 ? <TypeA/> : <TypeB/>
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -589,7 +601,7 @@ const TinderAnimation: React.FC = () => {
     if (remindItemStates.length == 1) {
       console.log('Booted');
       setPreviousCardStatus('中立');
-      isComplete ? playSound(5) : playSound(6);
+      
     }
 
     // 該当のTinderCardを削除
