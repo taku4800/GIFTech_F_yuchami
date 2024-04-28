@@ -416,7 +416,7 @@ const TinderAnimation: React.FC = () => {
     };
   }, [remindItemStates, charaAnimationMode, isLook]);
 
-  const TypeA = ()=>{
+  const TypeA = () => {
     useEffect(() => {
       playSound(5);
     }, []);
@@ -469,10 +469,10 @@ const TinderAnimation: React.FC = () => {
           </View>
         </TouchableOpacity>
       </>
-    )
-  }
+    );
+  };
 
-  const TypeB = ()=>{
+  const TypeB = () => {
     useEffect(() => {
       playSound(6);
     }, []);
@@ -577,11 +577,10 @@ const TinderAnimation: React.FC = () => {
           </TouchableOpacity>
         </View>
       </>
-    )
-  }
+    );
+  };
 
-  const CompleteCards =
-    notHaveCount === 0 ? <TypeA/> : <TypeB/>
+  const CompleteCards = notHaveCount === 0 ? <TypeA /> : <TypeB />;
 
   useEffect(() => {
     // APIから確認リストを取得する
@@ -601,7 +600,6 @@ const TinderAnimation: React.FC = () => {
     if (remindItemStates.length == 1) {
       console.log('Booted');
       setPreviousCardStatus('中立');
-      
     }
 
     // 該当のTinderCardを削除
