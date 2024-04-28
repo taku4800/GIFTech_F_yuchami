@@ -24,21 +24,27 @@ export const RandomColors: CardColorTheme[] = [
     charaType: 3,
   },
   {
+    startColor: '#0CA23F',
+    endColor: '#007613',
+    charaColor: '#0065DD',
+    charaType: 4,
+  },
+  {
     startColor: '#9ADB10',
     endColor: '#45B311',
     charaColor: '#0065DD',
-    charaType: 4,
+    charaType: 5,
   },
   {
     startColor: '#FF7081',
     endColor: '#F22D2D',
     charaColor: '#9E00D5',
-    charaType: 5,
+    charaType: 6,
   },
   {
     startColor: '#40FFE8',
     endColor: '#0778A9',
     charaColor: '#FF820E',
-    charaType: 6,
+    charaType: 7,
   },
 ];
