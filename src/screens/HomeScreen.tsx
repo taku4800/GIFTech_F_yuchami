@@ -46,7 +46,7 @@ const TinderAnimation: React.FC = () => {
   const motionSound5 = useRef(new Audio.Sound()).current;
   const motionSound6 = useRef(new Audio.Sound()).current;
   const [notHaveCount, setNotHaveCount] = useState<number>(0);
-  let isComplete:boolean = true;
+  let isComplete: boolean = true;
 
   let charaMote = 0;
 
@@ -257,7 +257,7 @@ const TinderAnimation: React.FC = () => {
           setIsLoading(true);
           fetchData().then(() => {
             setNotHaveCount(0);
-            isComplete=true;
+            isComplete = true;
           });
         }}
       >
@@ -420,7 +420,7 @@ const TinderAnimation: React.FC = () => {
   }, [remindItemStates, charaAnimationMode, isLook]);
 
   const CompleteCards =
-    notHaveCount === 0? (
+    notHaveCount === 0 ? (
       <>
         <Text
           style={{
@@ -440,7 +440,7 @@ const TinderAnimation: React.FC = () => {
             setIsLoading(true);
             fetchData().then(() => {
               setNotHaveCount(0);
-              isComplete=true;
+              isComplete = true;
             });
           }}
         >
